@@ -216,7 +216,7 @@ public class DataBilder {
 	return r;
     }
 
-    private svm_node[] boulfNodeForXFrom(String[] line) {
+    private svm_node[] bildNodeForXFrom(String[] line) {
 	svm_node[] r = new svm_node[6];
 
 	int a = 0;
@@ -238,13 +238,13 @@ public class DataBilder {
 
     private void addToProblemAt(String[] line, int p) {
 	problem.y[p] = this.valOfClass(line[6]);
-	problem.x[p] = this.boulfNodeForXFrom(line);
+	problem.x[p] = this.bildNodeForXFrom(line);
 //	throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void addToTestAt(String[] line, int t) {
 	testSVM.y[t] = this.valOfClass(line[6]);
-	testSVM.x[t] = this.boulfNodeForXFrom(line);
+	testSVM.x[t] = this.bildNodeForXFrom(line);
 //	throw new UnsupportedOperationException("Not yet implemented");
     }
 }
