@@ -42,11 +42,11 @@ public class Model {
     }
     //</editor-fold>
 
-    
-    public void buildModel(){
+    public void buildModel() {
 	long unixTime = System.currentTimeMillis() / 1000L;
-	this.buildAndSaveModel("lastModel("+unixTime+").libsvm");	
+	this.buildAndSaveModel("lastModel(" + unixTime + ").libsvm");
     }
+
     public void buildAndSaveModel(String saveTo) {
 
 	// <editor-fold defaultstate="collapsed" desc="parametry svm">
@@ -124,7 +124,7 @@ public class Model {
 		System.out.print("\t" + cls + "!=" + testSVM.y[a] + "\n");
 	    }
 	}
-	
+
 	System.out.print("\tcls:\tok\tnieOK\n");
 	for (int a = 1; a < 5; ++a) {
 	    System.out.print("\t" + a + ":\t" + ok[a] + "\t" + nieOK[a] + "\n");
