@@ -31,12 +31,18 @@ public class CarSVM {
 //	}
 
 	
-	Car c = new Car();
-	c.print();
-	m.predictCar(c);
-	c.print();
-	c.line();
-
+	Car[] c = new Car[100];
+	for (int a = 0; a <100 ; ++a) {
+	    c[a] = new Car();
+	}
+	c[0].print();
+	m.predictCar(c[0]);
+	c[0].print();
+	c[0].line();
+	
+	Pearson p = new Pearson();
+	
+	p.correlation(c);
 
 
     }

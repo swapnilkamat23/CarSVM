@@ -130,6 +130,7 @@ public class Model {
 	    System.out.print("\t" + a + ":\t" + ok[a] + "\t" + nieOK[a] + "\n");
 	}
 //	throw new UnsupportedOperationException("Not yet implemented Model.testModel()");
+	
     }
 
     public void loadModel(String load) throws IOException {
