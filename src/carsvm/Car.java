@@ -4,10 +4,7 @@
  */
 package carsvm;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import libsvm.svm_node;
 
 /**
@@ -327,6 +324,31 @@ class Car {
     
     public void line(){
 	System.out.print(this.buing+","+this.maint+","+this.doors.toString().replace("_", "")+","+this.persons.toString().replace("_", "")+","+this.lug_boot+","+this.safety+"\n");
+    }
+    
+    public Car[] AllCars(){
+	ArrayList<Car> allTmp = new ArrayList<Car>();
+	
+	for (CarBuing b: CarBuing.values()){
+	    for(CarMaint m: CarMaint.values()){
+		for(CarDoors d: CarDoors.values()){
+		    for(CarPersons p: CarPersons.values()){
+			for(CarLug_boot l: CarLug_boot.values()){
+			    for(CarSafety s: CarSafety.values()){
+				allTmp.add(new Car(b, m, d, p, l, s));
+			    }
+			}
+		    }
+		}
+	    }
+	}
+	
+	Car[] all;
+	all = new Car[allTmp.size()];
+	for (int a = 0; a < allTmp.size() ; ++a) {
+	    all[a] = allTmp.get(a);
+	}
+	return all;
     }
     
 }
