@@ -117,20 +117,24 @@ public class Model {
 	    int clsI = (int) cls;
 	    if (cls == testSVM.y[a]) {
 		++ok[clsI];
-		System.out.print(cls + "==" + testSVM.y[a] + "\n");
+//		System.out.print(cls + "==" + testSVM.y[a] + "\n");
 
 	    } else {
 		++nieOK[clsI];
-		System.out.print("\t" + cls + "!=" + testSVM.y[a] + "\n");
+//		System.out.print("\t" + cls + "!=" + testSVM.y[a] + "\n");
 	    }
 	}
-
+	int sumOK = 0;
+	int sumNieOK = 0;
 	System.out.print("\tcls:\tok\tnieOK\n");
 	for (int a = 1; a < 5; ++a) {
 	    System.out.print("\t" + a + ":\t" + ok[a] + "\t" + nieOK[a] + "\n");
+	    sumOK += ok[a];
+	    sumNieOK += nieOK[a];
 	}
+	System.out.print("\t" + "sum" + ":\t" + sumOK + "\t" + sumNieOK + "\n");
 //	throw new UnsupportedOperationException("Not yet implemented Model.testModel()");
-	
+
     }
 
     public void loadModel(String load) throws IOException {
