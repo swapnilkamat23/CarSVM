@@ -57,7 +57,7 @@ public class CarSVM {
 	
 	Pearson p = new Pearson();
 	
-	p.correlation(c);
+	p.correlation(all);
 
 
     }

@@ -363,27 +363,9 @@ class Car {
 	}
 
 	for (Car c : all) {
-	    svm_node[] stat = c.bildDataToPredict();
-	    for (int a = 0; a < stat.length; ++a) {
-		sum[a] += stat[a].value;
-	    }
-
-
-	    switch (c.getCls()) {
-		case unacc:
-		    sum[6] += 1;
-		    break;
-		case acc:
-		    sum[6] += 2;
-		    break;
-		case good:
-		    sum[6] += 3;
-		    break;
-		case vgood:
-		    sum[6] += 4;
-		    break;
-		case no:
-		    throw new EnumConstantNotPresentException(null, "nie może nie miec klasy");
+	    double[] dVals = c.DoubleVals();
+	    for (int a = 0; a < sum.length ; ++a) {
+		sum[a] += dVals[a];
 	    }
 	}
 
@@ -516,5 +498,37 @@ class Car {
 	//</editor-fold>
 
 	return new Car(c, b, m, d, p, l, s);
+    }
+
+    public double[] DoubleVals() {
+	double[] vals = new double[7];
+	for (int a = 0; a < vals.length; ++a) {
+	    vals[a] = 0;
+	}
+
+	svm_node[] stat = this.bildDataToPredict();
+	for (int a = 0; a < stat.length; ++a) {
+	    vals[a] += stat[a].value;
+	}
+
+
+	switch (this.getCls()) {
+	    case unacc:
+		vals[6] += 1;
+		break;
+	    case acc:
+		vals[6] += 2;
+		break;
+	    case good:
+		vals[6] += 3;
+		break;
+	    case vgood:
+		vals[6] += 4;
+		break;
+	    case no:
+		throw new EnumConstantNotPresentException(null, "nie może nie miec klasy");
+	}
+
+	return vals;
     }
 }
