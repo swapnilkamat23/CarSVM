@@ -105,7 +105,7 @@ class Car {
     private CarPersons persons;
     private CarLug_boot lug_boot;
     private CarSafety safety;
-    private double dCls=0;
+    private double dCls = 0;
 
     //<editor-fold defaultstate="collapsed" desc="geters&seters">
     public CarBuing getBuing() {
@@ -155,6 +155,10 @@ class Car {
 	    case 4:
 		this.cls = CarClass.vgood;
 		break;
+	    default:
+		throw new IllegalAccessError("cls ma być inne a jest " + d + "\n");
+
+
 	}
     }
     //</editor-fold>
@@ -313,7 +317,7 @@ class Car {
     public void print() {
 	System.out.print("-----------------\n");
 	System.out.print("Car:\n");
-	System.out.print("\tclass\t\t" + this.cls + " "+dCls+"\n");
+	System.out.print("\tclass\t\t" + this.cls + " " + dCls + "\n");
 	System.out.print("\tbuying\t\t" + this.buing + "\n");
 	System.out.print("\tmaint\t\t" + this.maint + "\n");
 	System.out.print("\tdoors\t\t" + this.doors + "\n");
@@ -321,20 +325,20 @@ class Car {
 	System.out.print("\tlug_boot\t" + this.lug_boot + "\n");
 	System.out.print("\tsafety\t\t" + this.safety + "\n");
     }
-    
-    public void line(){
-	System.out.print(this.buing+","+this.maint+","+this.doors.toString().replace("_", "")+","+this.persons.toString().replace("_", "")+","+this.lug_boot+","+this.safety+"\n");
+
+    public void line() {
+	System.out.print(this.buing + "," + this.maint + "," + this.doors.toString().replace("_", "") + "," + this.persons.toString().replace("_", "") + "," + this.lug_boot + "," + this.safety + "\n");
     }
-    
-    public Car[] AllCars(){
+
+    public Car[] AllCars() {
 	ArrayList<Car> allTmp = new ArrayList<Car>();
-	
-	for (CarBuing b: CarBuing.values()){
-	    for(CarMaint m: CarMaint.values()){
-		for(CarDoors d: CarDoors.values()){
-		    for(CarPersons p: CarPersons.values()){
-			for(CarLug_boot l: CarLug_boot.values()){
-			    for(CarSafety s: CarSafety.values()){
+
+	for (CarBuing b : CarBuing.values()) {
+	    for (CarMaint m : CarMaint.values()) {
+		for (CarDoors d : CarDoors.values()) {
+		    for (CarPersons p : CarPersons.values()) {
+			for (CarLug_boot l : CarLug_boot.values()) {
+			    for (CarSafety s : CarSafety.values()) {
 				allTmp.add(new Car(b, m, d, p, l, s));
 			    }
 			}
@@ -342,13 +346,175 @@ class Car {
 		}
 	    }
 	}
-	
+
 	Car[] all;
 	all = new Car[allTmp.size()];
-	for (int a = 0; a < allTmp.size() ; ++a) {
+	for (int a = 0; a < allTmp.size(); ++a) {
 	    all[a] = allTmp.get(a);
 	}
 	return all;
     }
-    
+
+    public Car AvgCar(Car[] all) {
+
+	double[] sum = new double[7];
+	for (int a = 0; a < sum.length; ++a) {
+	    sum[a] = 0;
+	}
+
+	for (Car c : all) {
+	    svm_node[] stat = c.bildDataToPredict();
+	    for (int a = 0; a < stat.length; ++a) {
+		sum[a] += stat[a].value;
+	    }
+
+
+	    switch (c.getCls()) {
+		case unacc:
+		    sum[6] += 1;
+		    break;
+		case acc:
+		    sum[6] += 2;
+		    break;
+		case good:
+		    sum[6] += 3;
+		    break;
+		case vgood:
+		    sum[6] += 4;
+		    break;
+		case no:
+		    throw new EnumConstantNotPresentException(null, "nie może nie miec klasy");
+	    }
+	}
+
+	for (int a = 0; a < sum.length; ++a) {
+	    sum[a] = sum[a] / all.length;
+	    System.out.print(a + " " + sum[a] + "\n");
+	}
+
+	CarBuing b = null;
+	CarMaint m = null;
+	CarDoors d = null;
+	CarPersons p = null;
+	CarLug_boot l = null;
+	CarSafety s = null;
+
+	CarClass c = null;
+
+	//<editor-fold defaultstate="collapsed" desc="double2Enum">
+	int[] avg = new int[7];
+	for (int a = 0; a < avg.length; ++a) {
+	    avg[a] = (int) (sum[a] + 0.5);
+	}
+
+
+
+	switch (avg[0]) {
+	    case 1:
+		b = CarBuing.vhigh;
+		break;
+	    case 2:
+		b = CarBuing.high;
+		break;
+	    case 3:
+		b = CarBuing.med;
+		break;
+	    case 4:
+		b = CarBuing.low;
+	}
+
+
+
+	switch (avg[1]) {
+	    case 1:
+		m = CarMaint.vhigh;
+		break;
+	    case 2:
+		m = CarMaint.high;
+		break;
+	    case 3:
+		m = CarMaint.med;
+		break;
+	    case 4:
+		m = CarMaint.low;
+	}
+
+	switch (avg[2]) {
+	    case 1:
+		d = CarDoors._2;
+		break;
+	    case 2:
+		d = CarDoors._3;
+		break;
+	    case 3:
+		d = CarDoors._4;
+		break;
+	    case 4:
+		d = CarDoors._5more;
+		break;
+	}
+
+	switch (avg[3]) {
+	    case 1:
+		p = CarPersons._2;
+		break;
+	    case 2:
+		p = CarPersons._4;
+		break;
+	    case 3:
+		p = CarPersons._more;
+		break;
+	}
+
+	switch (avg[4]) {
+	    case 1:
+		l = CarLug_boot.small;
+		break;
+	    case 2:
+		l = CarLug_boot.med;
+		break;
+	    case 3:
+		l = CarLug_boot.big;
+		break;
+	}
+
+
+	switch (avg[5]) {
+	    case 1:
+		s = CarSafety.low;
+		break;
+	    case 2:
+		s = CarSafety.med;
+		break;
+	    case 3:
+		s = CarSafety.high;
+		break;
+
+	}
+
+
+	switch (avg[6]) {
+
+	    case 1:
+		c = CarClass.unacc;
+		break;
+	    case 2:
+		c = CarClass.acc;
+		break;
+	    case 3:
+		c = CarClass.good;
+		break;
+	    case 4:
+		c = CarClass.vgood;
+		break;
+
+
+	}
+
+
+
+	//</editor-fold>
+
+	return new Car(c, b, m, d, p, l, s);
+    }
 }

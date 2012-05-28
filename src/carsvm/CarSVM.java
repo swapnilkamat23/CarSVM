@@ -43,7 +43,17 @@ public class CarSVM {
 	
 	System.out.print("all cars\n");
 	Car[] all = c[0].AllCars();
+	for (int a = 0; a <all.length ; ++a) {
+	    m.predictCar(all[a]);
+	}
 	System.out.print("all = "+all.length+"\n");
+	
+	
+	System.out.print("avg car\n");
+	
+	Car avg = all[0].AvgCar(all);
+	
+	avg.print();
 	
 	Pearson p = new Pearson();
 	
