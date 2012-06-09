@@ -58,6 +58,10 @@ public class CarSVM {
 	Pearson p = new Pearson();
 	
 	p.correlation(all);
+	
+	Morris mo = new Morris();
+	
+	mo.correlation(all, m);
 
 
     }

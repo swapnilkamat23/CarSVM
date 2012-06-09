@@ -364,7 +364,7 @@ class Car {
 
 	for (Car c : all) {
 	    double[] dVals = c.DoubleVals();
-	    for (int a = 0; a < sum.length ; ++a) {
+	    for (int a = 0; a < sum.length; ++a) {
 		sum[a] += dVals[a];
 	    }
 	}
@@ -374,6 +374,18 @@ class Car {
 	    System.out.print(a + " " + sum[a] + "\n");
 	}
 
+	
+	int[] avg = new int[7];
+	for (int a = 0; a < avg.length; ++a) {
+	    avg[a] = (int) (sum[a] + 0.5);
+	}
+
+
+
+	return this.CarFromInt(avg);
+    }
+
+    public Car CarFromInt(int[] avg){
 	CarBuing b = null;
 	CarMaint m = null;
 	CarDoors d = null;
@@ -384,13 +396,7 @@ class Car {
 	CarClass c = null;
 
 	//<editor-fold defaultstate="collapsed" desc="double2Enum">
-	int[] avg = new int[7];
-	for (int a = 0; a < avg.length; ++a) {
-	    avg[a] = (int) (sum[a] + 0.5);
-	}
-
-
-
+	
 	switch (avg[0]) {
 	    case 1:
 		b = CarBuing.vhigh;
@@ -489,6 +495,9 @@ class Car {
 	    case 4:
 		c = CarClass.vgood;
 		break;
+	    default:
+		c = CarClass.no;
+		break;
 
 
 	}
@@ -498,8 +507,11 @@ class Car {
 	//</editor-fold>
 
 	return new Car(c, b, m, d, p, l, s);
+	
+	
     }
-
+    
+    
     public double[] DoubleVals() {
 	double[] vals = new double[7];
 	for (int a = 0; a < vals.length; ++a) {
@@ -530,5 +542,31 @@ class Car {
 	}
 
 	return vals;
+    }
+
+    public double[] doubleVals4Morris() {
+	double[] vals = this.DoubleVals();
+
+	vals[0] /= 4;
+	vals[1] /= 4;
+	vals[2] /= 4;
+	vals[3] /= 3;
+	vals[4] /= 3;
+	vals[5] /= 3;
+
+	return vals;
+    }
+
+    public Car CarFromMorrisData(double[] data) {
+	int[] vals = new int[data.length];
+	for (int a = 0; a < vals.length; ++a) {
+	    if (a < 3) {
+		vals[a] = (int) (data[a] * 4);
+	    } else {
+		vals[a] = (int) (data[a] * 3);
+	    }
+	}
+
+	return this.CarFromInt(vals);
     }
 }
