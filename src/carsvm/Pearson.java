@@ -52,7 +52,7 @@ public class Pearson {
 		    break;
 	    }
 
-	    double r = up / (Math.sqrt(down1)*Math.sqrt(down2));
+	    double r = Math.abs(up / (Math.sqrt(down1)*Math.sqrt(down2)));
 	    
 	    System.out.print(r+"\n");
 

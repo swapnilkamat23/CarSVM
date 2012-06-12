@@ -15,7 +15,14 @@ public class Morris {
     public void correlation(Car[] c, Model m) {
 
 	double[] fr = new double[6];
-	
+
+	double[][] all = new double[6][c.length];
+	for (int a = 0; a < all.length; ++a) {
+	    for (int b = 0; b < all[0].length; ++b) {
+		all[a][b] = 0;
+	    }
+	}
+
 	for (int n = 0; n < 6; ++n) {
 	    fr[n] = 0;
 	    double p = 1;
@@ -42,13 +49,14 @@ public class Morris {
 		m.predictCar(crΔ);
 
 		double di = (c[r].DoubleVals()[6] - crΔ.DoubleVals()[6]) / Δ;
+		all[n][r] = di;
 		fr[n] += di;
 
 	    }
 
-	fr[n] /= c.length;
-	fr[n] = Math.abs(fr[n]);
-	switch (n) {
+	    fr[n] /= c.length;
+	    fr[n] = Math.abs(fr[n]);
+	    switch (n) {
 		case 0:
 		    System.out.print("wspulczynnik Morrisa dla " + "Buing" + " wynosi: ");
 		    break;
@@ -68,9 +76,28 @@ public class Morris {
 		    System.out.print("wspulczynnik Morrisa dla " + "Safety" + " wynosi: ");
 		    break;
 	    }
-
-	System.out.print(fr[n]+"\n");
+	    double std = 0;
+	    std = this.stdDev(all[n]);
+	    System.out.print(fr[n] + " std:"+ std + "\n");
 	}
-	
+
+    }
+
+    private double stdDev(double[] vals) {
+	double std = 0;
+	double avg = 0;
+
+	for (int a = 0; a < vals.length; ++a) {
+	    avg += vals[a];
+	}
+	avg /= vals.length;
+
+	for (int a = 0; a < vals.length; ++a) {
+	    std += (vals[a] - avg) * (vals[a] - avg);
+	}
+	std /= vals.length;
+	std = Math.sqrt(std);
+
+	return std;
     }
 }
